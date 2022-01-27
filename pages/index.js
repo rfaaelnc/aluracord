@@ -138,6 +138,8 @@ export default function PaginaInicial() {
               minHeight: '240px',
             }}
           >
+            {username.length >= 2 
+            ? (
             <Image
               styleSheet={{
                 borderRadius: '50%',
@@ -145,6 +147,9 @@ export default function PaginaInicial() {
               }}
               src={`https://github.com/${username}.png`}
             />
+              ) : ''
+            }
+            
             <Text
               variant="body4"
               styleSheet={{
