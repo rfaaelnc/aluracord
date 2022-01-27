@@ -109,6 +109,15 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
+            <Button
+              onClick={() => {
+                handleNewMessage(mensagem);
+              }}
+              label="ok"
+              styleSheet={{
+                backgroundColor: appConfig.theme.colors.neutrals[800],
+              }}
+            />
           </Box>
         </Box>
       </Box>
