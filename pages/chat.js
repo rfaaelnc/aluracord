@@ -7,9 +7,13 @@ export default function ChatPage() {
   const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
 
   function handleNewMessage(newMessage) {
+    const user = localStorage.getItem("aluracord.user")
+      ? localStorage.getItem("aluracord.user")
+      : "Visitante";
     const mensagem = {
       id: listaDeMensagens.length + 1,
-      from: "user01",
+      from: user,
+      // from: "user01",
       message: newMessage,
     };
     // setMensagem('');

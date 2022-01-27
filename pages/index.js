@@ -25,6 +25,10 @@ export default function PaginaInicial() {
   const [username, setUsername] = React.useState("peas");
   const roteamento = useRouter();
 
+  React.useEffect(() => {
+    localStorage.setItem("aluracord.user", username);
+  }, [username]);
+
   return (
     <>
       {/* <GlobalStyle /> */}
