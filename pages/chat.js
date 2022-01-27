@@ -22,6 +22,13 @@ export default function ChatPage() {
     ]);
     setMensagem("");
   }
+
+  function deleteMessage(id) {
+    const list = listaDeMensagens.filter((message) => message.id !== id);
+
+    setListaDeMensagens(list);
+  }
+
   return (
     <Box
       styleSheet={{
@@ -64,7 +71,10 @@ export default function ChatPage() {
           }}
         >
           {/* {mensagem} */}
-          <MessageList messages={listaDeMensagens} />
+          <MessageList
+            messages={listaDeMensagens}
+            removeMessage={deleteMessage}
+          />
           {/* <MessageList /> */}
 
           {/* {listaDeMensagens.map((mensagemAtual, index) => {
@@ -173,6 +183,7 @@ function MessageList(props) {
               borderRadius: "5px",
               padding: "6px",
               marginBottom: "12px",
+              position: "relative",
               hover: {
                 backgroundColor: appConfig.theme.colors.neutrals[700],
               },
@@ -204,6 +215,17 @@ function MessageList(props) {
               >
                 {new Date().toLocaleDateString()}
               </Text>
+
+              <Button
+                label="X"
+                onClick={() => {
+                  props.removeMessage(message.id);
+                }}
+                styleSheet={{
+                  position: "absolute",
+                  right: "16px",
+                }}
+              />
             </Box>
             {message.message}
           </Text>
