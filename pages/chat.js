@@ -109,8 +109,6 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
-
-            <Button label="OK" />
           </Box>
         </Box>
       </Box>
