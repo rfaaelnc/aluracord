@@ -1,6 +1,20 @@
 import { Box, Text, TextField, Image, Button } from "@skynexui/components";
+import { createClient } from "@supabase/supabase-js";
 import React from "react";
 import appConfig from "../config.json";
+
+const SUPABASE_PUBLIC_KEY = "";
+const SUPABASE_URL = "https://qardaowlnlgxaiuffzxo.supabase.co";
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
+
+const dataSupaBase = supabaseClient
+  .from("mensagens")
+  .select("*")
+  .then((dados) => {
+    console.log("Dados da consulta", dados);
+  });
+
+console.log(dataSupaBase);
 
 export default function ChatPage() {
   const [mensagem, setMensagem] = React.useState("");
@@ -164,7 +178,6 @@ function Header() {
 }
 
 function MessageList(props) {
-  console.log("MessageList", props.messages);
   return (
     <Box
       tag="ul"
@@ -178,7 +191,6 @@ function MessageList(props) {
       }}
     >
       {props.messages.map((message) => {
-        console.log(message);
         return (
           <Text
             tag="li"
