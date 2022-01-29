@@ -13,13 +13,14 @@ export default function ChatPage() {
   const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
 
   React.useEffect(() => {
-    const dataSupabase = supabaseClient
-      .from("mensagens")
+    supabaseClient
+      .from("messages")
       .select("*")
-      .then((dados) => {
-        setListaDeMensagens(dados["data"][0]);
+      .order("id", { ascending: false })
+      .then(({ data }) => {
+        setListaDeMensagens(data);
       });
-  }, [listaDeMensagens]);
+  }, []);
 
   console.log("Mensagens", listaDeMensagens);
 
@@ -28,25 +29,40 @@ export default function ChatPage() {
       ? localStorage.getItem("aluracord.user")
       : "Visitante";
     const mensagem = {
-      id: listaDeMensagens.length + 1,
+      // id: listaDeMensagens.length + 1,
       from: user,
       // from: "user01",
       message: newMessage,
     };
     // setMensagem('');
     // Backend
+    supabaseClient
+      .from("messages")
+      .insert([mensagem])
+      .then(({ data }) => {
+        console.log("add mensagem", data);
+        setListaDeMensagens([data[0], ...listaDeMensagens]);
+      });
 
-    setListaDeMensagens([
-      mensagem,
-      ...listaDeMensagens,
-      // newMessage,
-    ]);
+    // setListaDeMensagens([
+    //   mensagem,
+    //   ...listaDeMensagens,
+    //   // newMessage,
+    // ]);
     setMensagem("");
   }
 
   function deleteMessage(id) {
-    const list = listaDeMensagens.filter((message) => message.id !== id);
+    supabaseClient
+      .from("messages")
+      .delete()
+      .match({ id: id })
+      .then(({ data }) => {
+        console.log("delete mensagem", data);
+        // setListaDeMensagens([data[0], ...listaDeMensagens]);
+      });
 
+    const list = listaDeMensagens.filter((message) => message.id !== id);
     setListaDeMensagens(list);
   }
 
