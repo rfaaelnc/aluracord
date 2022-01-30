@@ -251,16 +251,18 @@ function MessageList(props) {
                 {new Date().toLocaleDateString()}
               </Text>
 
-              <Button
-                label="X"
-                onClick={() => {
-                  props.removeMessage(message.id);
-                }}
-                styleSheet={{
-                  position: "absolute",
-                  right: "16px",
-                }}
-              />
+              {localStorage.getItem("aluracord.user") == message.from && (
+                <Button
+                  label="X"
+                  onClick={() => {
+                    props.removeMessage(message.id);
+                  }}
+                  styleSheet={{
+                    position: "absolute",
+                    right: "16px",
+                  }}
+                />
+              )}
             </Box>
             {message.message}
           </Text>
