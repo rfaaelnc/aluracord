@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import React from "react";
 import appConfig from "../config.json";
 import supabaseConfig from "../config";
+import { ButtonSendSticker } from "../src/components/ButtonSendSticker";
 
 const SUPABASE_PUBLIC_KEY = supabaseConfig.SUPABASE_PUBLIC_KEY;
 const SUPABASE_URL = supabaseConfig.SUPABASE_URL;
@@ -156,6 +157,17 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
+            {/* CallBack */}
+            <ButtonSendSticker
+              onStickerClick={(sticker) => {
+                console.log(
+                  "[USANDO O COMPONENTE] Salva sticker no bd",
+                  sticker
+                );
+
+                handleNewMessage(`:sticker:${sticker}`);
+              }}
+            />
             <Button
               onClick={() => {
                 handleNewMessage(mensagem);
@@ -264,7 +276,19 @@ function MessageList(props) {
                 />
               )}
             </Box>
-            {message.message}
+            {/* {message.message.starsWith(":sticker").toString()} */}
+            {message.message.startsWith(":sticker") ? (
+              <Image
+                src={message.message.replace(":sticker:", "")}
+                styleSheet={{
+                  maxWidth: "110px",
+                  height: "auto",
+                }}
+              />
+            ) : (
+              message.message
+            )}
+            {/* {message.message} */}
           </Text>
         );
       })}
