@@ -9,6 +9,16 @@ const SUPABASE_PUBLIC_KEY = supabaseConfig.SUPABASE_PUBLIC_KEY;
 const SUPABASE_URL = supabaseConfig.SUPABASE_URL;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
 
+function messagesRealTime(message) {
+  return supabaseClient
+    .from("messages")
+    .on("INSERT", (payload) => {
+      // console.log("Change received!", payload);
+      message(payload.new);
+    })
+    .subscribe();
+}
+
 export default function ChatPage() {
   const [mensagem, setMensagem] = React.useState("");
   const [listaDeMensagens, setListaDeMensagens] = React.useState([]);
@@ -21,9 +31,15 @@ export default function ChatPage() {
       .then(({ data }) => {
         setListaDeMensagens(data);
       });
-  }, []);
 
-  console.log("Mensagens", listaDeMensagens);
+    messagesRealTime((newMessage) => {
+      console.log("Nova Mensagem", newMessage);
+      // handleNewMessage(newMessage);
+      setListaDeMensagens((valueList) => {
+        return [newMessage, ...valueList];
+      });
+    });
+  }, []);
 
   function handleNewMessage(newMessage) {
     const user = localStorage.getItem("aluracord.user")
@@ -42,7 +58,7 @@ export default function ChatPage() {
       .insert([mensagem])
       .then(({ data }) => {
         console.log("add mensagem", data);
-        setListaDeMensagens([data[0], ...listaDeMensagens]);
+        // setListaDeMensagens([data[0], ...listaDeMensagens]);
       });
 
     // setListaDeMensagens([
@@ -59,7 +75,7 @@ export default function ChatPage() {
       .delete()
       .match({ id: id })
       .then(({ data }) => {
-        console.log("delete mensagem", data);
+        // console.log("delete mensagem", data);
         // setListaDeMensagens([data[0], ...listaDeMensagens]);
       });
 
@@ -141,7 +157,7 @@ export default function ChatPage() {
 
                   handleNewMessage(mensagem);
 
-                  console.log(event.key);
+                  console.log(event);
                 }
               }}
               placeholder="Insira sua mensagem aqui..."
