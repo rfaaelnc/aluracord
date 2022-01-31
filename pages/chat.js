@@ -170,7 +170,7 @@ export default function ChatPage() {
                 if (event.key == "Enter") {
                   event.preventDefault();
 
-                  handleNewMessage(mensagem);
+                  mensagem.trim().length > 0 && handleNewMessage(mensagem);
 
                   console.log(event);
                 }
@@ -201,7 +201,7 @@ export default function ChatPage() {
             />
             <Button
               onClick={() => {
-                handleNewMessage(mensagem);
+                mensagem.trim().length > 0 && handleNewMessage(mensagem);
               }}
               label="ok"
               styleSheet={{
@@ -209,6 +209,7 @@ export default function ChatPage() {
                 borderRadius: "50%",
                 minWidth: "50px",
                 minHeight: "50px",
+                marginBottom: "8px",
               }}
             />
           </Box>
