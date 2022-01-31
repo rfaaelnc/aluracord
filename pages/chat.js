@@ -9,12 +9,15 @@ const SUPABASE_PUBLIC_KEY = supabaseConfig.SUPABASE_PUBLIC_KEY;
 const SUPABASE_URL = supabaseConfig.SUPABASE_URL;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
 
-function messagesRealTime(message) {
+function messagesRealTime(message, status) {
   return supabaseClient
     .from("messages")
-    .on("INSERT", (payload) => {
+    .on("*", (payload) => {
       // console.log("Change received!", payload);
-      message(payload.new);
+      // console.log("payload", payload);
+      payload.eventType == "INSERT" && message(payload.new, payload.eventType);
+
+      payload.eventType == "DELETE" && message(payload.old, payload.eventType);
     })
     .subscribe();
 }
@@ -32,12 +35,21 @@ export default function ChatPage() {
         setListaDeMensagens(data);
       });
 
-    messagesRealTime((newMessage) => {
-      console.log("Nova Mensagem", newMessage);
+    messagesRealTime((newMessage, status) => {
+      status == "INSERT" && console.log("Nova Mensagem", newMessage);
       // handleNewMessage(newMessage);
-      setListaDeMensagens((valueList) => {
-        return [newMessage, ...valueList];
-      });
+
+      status == "INSERT" &&
+        setListaDeMensagens((valueList) => {
+          return [newMessage, ...valueList];
+        });
+
+      // console.log("status message", newMessage.id, status);
+
+      status == "DELETE" &&
+        setListaDeMensagens((valueList) => {
+          return valueList.filter((message) => message.id !== newMessage.id);
+        });
     });
   }, []);
 
@@ -75,12 +87,12 @@ export default function ChatPage() {
       .delete()
       .match({ id: id })
       .then(({ data }) => {
-        // console.log("delete mensagem", data);
+        console.log("delete mensagem", data);
         // setListaDeMensagens([data[0], ...listaDeMensagens]);
       });
 
-    const list = listaDeMensagens.filter((message) => message.id !== id);
-    setListaDeMensagens(list);
+    // const list = listaDeMensagens.filter((message) => message.id !== id);
+    // setListaDeMensagens(list);
   }
 
   return (
