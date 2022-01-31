@@ -203,6 +203,9 @@ export default function ChatPage() {
               label="ok"
               styleSheet={{
                 backgroundColor: appConfig.theme.colors.neutrals[800],
+                borderRadius: "50%",
+                minWidth: "50px",
+                minHeight: "50px",
               }}
             />
           </Box>
