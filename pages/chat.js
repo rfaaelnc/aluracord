@@ -267,6 +267,7 @@ function MessageList(props) {
               padding: "6px",
               marginBottom: "12px",
               position: "relative",
+              whiteSpace: "break-spaces",
               hover: {
                 backgroundColor: appConfig.theme.colors.neutrals[700],
               },
