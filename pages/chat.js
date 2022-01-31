@@ -167,12 +167,13 @@ export default function ChatPage() {
                 setMensagem(value);
               }}
               onKeyPress={(event) => {
-                if (event.key == "Enter") {
+                console.log(event.shiftKey);
+                if (event.key === "Enter" && event.shiftKey === false) {
                   event.preventDefault();
 
                   mensagem.trim().length > 0 && handleNewMessage(mensagem);
 
-                  console.log(event);
+                  // console.log(event);
                 }
               }}
               placeholder="Insira sua mensagem aqui..."
