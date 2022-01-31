@@ -37,9 +37,11 @@ export default function PaginaInicial() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: appConfig.theme.colors.primary[500],
-          backgroundImage:
-            "url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)",
+          // backgroundColor: appConfig.theme.colors.primary[500],
+          // backgroundImage:
+          //   "url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)",
+          backgroundColor: "#FFC0A299",
+          backgroundImage: "url(./assets/jpg/deathstranding2k.jpg)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundBlendMode: "multiply",
@@ -60,7 +62,8 @@ export default function PaginaInicial() {
             padding: "32px",
             margin: "16px",
             boxShadow: "0 2px 10px 0 rgb(0 0 0 / 20%)",
-            backgroundColor: appConfig.theme.colors.neutrals[700],
+            backgroundColor: "rgba(33,41,49,0.6);",
+            // backgroundColor: appConfig.theme.colors.neutrals[700],
           }}
         >
           {/* Formulário */}
@@ -165,20 +168,31 @@ export default function PaginaInicial() {
                 src={`https://github.com/${username}.png`}
               />
             ) : (
-              ""
+              <Image
+                styleSheet={{
+                  borderRadius: "50%",
+                  marginBottom: "16px",
+                  objectFit: "cover",
+                  height: "170px",
+                }}
+                src={
+                  "https://c.tenor.com/ljx9salEZcIAAAAd/death-stranding-kojima-productions.gif"
+                }
+              />
             )}
-
-            <Text
-              variant="body4"
-              styleSheet={{
-                color: appConfig.theme.colors.neutrals[200],
-                backgroundColor: appConfig.theme.colors.neutrals[900],
-                padding: "3px 10px",
-                borderRadius: "1000px",
-              }}
-            >
-              {username}
-            </Text>
+            {username.length >= 2 && (
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals[200],
+                  backgroundColor: appConfig.theme.colors.neutrals[900],
+                  padding: "3px 10px",
+                  borderRadius: "1000px",
+                }}
+              >
+                {username}
+              </Text>
+            )}
           </Box>
           {/* Photo Area */}
         </Box>
